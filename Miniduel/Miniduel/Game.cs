@@ -2,18 +2,11 @@
 {
     public class Game
     {
-        public RoundState _round;
-        public IEventsListener _listener;
+        public Round _round;
 
         public Game()
         {
-            _round = new RoundState();
-            _round.StartGame();
-        }
-
-        public void SetListener(IEventsListener listener)
-        {
-            _listener = listener;
+            _round = new Round();
         }
 
         public bool SetPiece(int player, int location, EPiece piece)
@@ -22,7 +15,6 @@
             if (!result)
                 return false;
 
-            _listener?.OnAddedPiece(player, location, piece);
             return true;
         }
 
@@ -32,7 +24,6 @@
             if (!result)
                 return false;
 
-            _listener?.OnStartDuel();
             return true;
         }
 
@@ -41,13 +32,6 @@
             bool result = _round.PlayNextFight(out bool hasFinished);
             if (!result)
                 return false;
-
-            _listener?.OnPlayedFight(_round);
-
-            if (hasFinished)
-            {
-                _listener?.OnFinishedRound(_round);
-            }
 
             return true;
         }

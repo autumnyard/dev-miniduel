@@ -35,6 +35,7 @@ namespace AutumnYard.Miniduel
             // P vs P -> + 0/0
 
             // TODO: Is there any way I could read this from a file outside the code, so I don't have to recompile to change them?
+            // TODO: The opposite bool is transient, so I have to rebuild this rule dictionary every single time the method is called
             Dictionary<(EPiece, EPiece), FightResult> rules = new Dictionary<(EPiece, EPiece), FightResult>()
             {
                 { (EPiece.Attack,   EPiece.Attack),     new FightResult(1, 1, true, opposite) },
@@ -50,32 +51,32 @@ namespace AutumnYard.Miniduel
                 { (EPiece.Parry,    EPiece.Parry),      new FightResult(0, 0, false, opposite) },
             };
 
-            var asd = (offense, reaction);
+            var move = (offense, reaction);
 
-            if (!rules.ContainsKey(asd))
+            if (!rules.ContainsKey(move))
                 return FightResult.Error;
 
-            return rules[asd];
+            return rules[move];
         }
 
 
-        public static bool CalculateOffense(in FightResult[] results, in int index)
+        public static bool CalculateOffense(IEnumerable<FightResult> results)
         {
             bool offense = false;
-            for (int i = 0; i < index; i++)
+            foreach (var result in results)
             {
-                offense ^= results[i].offenseChange;
+                offense ^= result.offenseChange;
             }
 
             return offense;
         }
 
-        public static RoundResults CalculateResults(in FightResult[] results, in int index)
+        public static RoundResults CalculateResults(IEnumerable<FightResult> results)
         {
             RoundResults roundResults = new RoundResults();
-            for (int i = 0; i < index; i++)
+            foreach (var result in results)
             {
-                roundResults.AddFightResults(results[i]);
+                roundResults.AddFightResults(result);
             }
             return roundResults;
         }
