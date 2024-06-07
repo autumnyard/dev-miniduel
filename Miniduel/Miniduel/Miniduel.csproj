@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="EGameState.cs" />
     <Compile Include="EPiece.cs" />
+    <Compile Include="FSM.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="IEventsListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

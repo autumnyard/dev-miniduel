@@ -4,45 +4,35 @@ namespace AutumnYard.Miniduel
 {
     public sealed class RoundExecution
     {
-        public int points1;
-        public int points2;
-        public bool offense; // false is player1
+        private int points1;
+        private int points2;
+        private bool offense; // false is player1
 
-        public void Fight(EPiece piece1, EPiece piece2)
+        internal static void Fight(RoundExecution execution, EPiece piece1, EPiece piece2)
         {
-            FightState fight;
-            FightResult fightResult;
+            FightState fight = new FightState(piece1, piece2, !execution.offense);
+            FightResult fightResult = fight.Calculate();
 
-            if (!offense) // player1
-            {
-                fight = new FightState(piece1, piece2);
-                fightResult = fight.Calculate();
-                points1 += fightResult.offensePoints;
-                points2 += fightResult.reactionPoints;
-            }
-            else // player2
-            {
-                fight = new FightState(piece2, piece1);
-                fightResult = fight.Calculate();
-                points2 += fightResult.offensePoints;
-                points1 += fightResult.reactionPoints;
-            }
+            execution.Refresh(fightResult);
 
-            offense ^= fightResult.offenseChange;
-
-            string result = fightResult.ToString();
-            string result2 = ToString();
-            Console.WriteLine(result);
-            Console.WriteLine(result2);
+            Console.WriteLine(fightResult);
+            Console.WriteLine(execution);
             Console.WriteLine();
         }
 
-        public int GetWinner()
+        private void Refresh(FightResult results)
         {
-            if (points1 == points2)
-                return offense ? 1 : 0;
+            points1 += results.player1;
+            points2 += results.player2;
+            offense ^= results.offenseChange;
+        }
 
-            return points1 < points2 ? 1 : 0;
+        public static int GetWinner(RoundExecution execution)
+        {
+            if (execution.points1 == execution.points2)
+                return execution.offense ? 1 : 0;
+
+            return execution.points1 < execution.points2 ? 1 : 0;
         }
 
         public override string ToString()
@@ -57,6 +47,23 @@ namespace AutumnYard.Miniduel
         {
             public EPiece offense;
             public EPiece reaction;
+            private bool opposite = false;
+
+            public FightState(EPiece player1, EPiece player2, bool isOffenseInP1)
+            {
+                if (isOffenseInP1)
+                {
+                    offense = player1;
+                    reaction = player2;
+                    opposite = false;
+                }
+                else
+                {
+                    offense = player2;
+                    reaction = player1;
+                    opposite = true;
+                }
+            }
 
             public FightState(EPiece offense, EPiece reaction)
             {
@@ -76,69 +83,82 @@ namespace AutumnYard.Miniduel
                 // P vs A -> + 2/0
                 // P vs D -> + 0/0, change offense
                 // P vs P -> + 0/0
-
                 switch (offense)
                 {
                     case EPiece.Attack:
                         {
                             switch (reaction)
                             {
-                                case EPiece.Attack: return new FightResult(1, 1, true);
-                                case EPiece.Defense: return new FightResult(0, 1, false);
-                                case EPiece.Parry: return new FightResult(0, 2, true);
-                                default: return FightResult.Error;
+                                case EPiece.Attack: return new FightResult(1, 1, true, opposite);
+                                case EPiece.Defense: return new FightResult(0, 1, false, opposite);
+                                case EPiece.Parry: return new FightResult(0, 2, true, opposite);
                             }
                         }
+                        break;
 
                     case EPiece.Defense:
                         {
                             switch (reaction)
                             {
-                                case EPiece.Attack: return new FightResult(1, 0, true);
-                                case EPiece.Defense: return new FightResult(0, 0, true);
-                                case EPiece.Parry: return new FightResult(0, 0, false);
-                                default: return FightResult.Error;
+                                case EPiece.Attack: return new FightResult(1, 0, true, opposite);
+                                case EPiece.Defense: return new FightResult(0, 0, true, opposite);
+                                case EPiece.Parry: return new FightResult(0, 0, false, opposite);
                             }
                         }
+                        break;
 
                     case EPiece.Parry:
                         {
                             switch (reaction)
                             {
-                                case EPiece.Attack: return new FightResult(2, 0, false);
-                                case EPiece.Defense: return new FightResult(0, 0, true);
-                                case EPiece.Parry: return new FightResult(0, 0, false);
-                                default: return FightResult.Error;
+                                case EPiece.Attack: return new FightResult(2, 0, false, opposite);
+                                case EPiece.Defense: return new FightResult(0, 0, true, opposite);
+                                case EPiece.Parry: return new FightResult(0, 0, false, opposite);
                             }
                         }
-
-                    default:
-                        return FightResult.Error;
+                        break;
                 }
+
+                return FightResult.Error;
             }
         }
 
         private class FightResult
         {
-            public int offensePoints;
-            public int reactionPoints;
+            public int player1;
+            public int player2;
             public bool offenseChange;
 
-            public static FightResult Error => new FightResult(0, 0, false);
+            public static FightResult Error => new FightResult(0, 0, false, false);
 
-            public FightResult(int sA, int sB, bool offenseChange)
+            public FightResult(int sA, int sB, bool offenseChange, bool opposite)
             {
-                this.offensePoints = sA;
-                this.reactionPoints = sB;
+                if (opposite)
+                {
+                    this.player2 = sA;
+                    this.player1 = sB;
+                }
+                else
+                {
+                    this.player1 = sA;
+                    this.player2 = sB;
+                }
+                this.offenseChange = offenseChange;
+            }
+
+            public FightResult(int player1, int player2, bool offenseChange)
+            {
+                this.player1 = player1;
+                this.player2 = player2;
                 this.offenseChange = offenseChange;
             }
 
             public override string ToString()
             {
                 if (offenseChange)
-                    return $"  (Fight result: the offense earns {offensePoints} points, and the reaction {reactionPoints}. The offense changes side!)";
+                    return $"  (Fight result: Player1 earns {player1} points, and Player2 {player2}. The offense changes side!)";
                 else
-                    return $"  (Fight result: the offense earns {offensePoints} points, and the reaction {reactionPoints}.)";
+                    return $"  (Fight result: Player1 earns {player2} points, and Player2 {player2}.)";
             }
         }
     }

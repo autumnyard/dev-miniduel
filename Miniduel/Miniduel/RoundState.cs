@@ -26,8 +26,7 @@ namespace AutumnYard.Miniduel
 
         public bool SetPiece(int player, int location, EPiece piece)
         {
-            bool correctState = state != EGameState.Preparation;
-            if (correctState)
+            if (state != EGameState.Preparation)
                 return false;
 
             bool isValidPosition = IsValidPosition(player, location);
@@ -100,7 +99,7 @@ namespace AutumnYard.Miniduel
 
             var piecePlayer1 = board[0, currentRound];
             var piecePlayer2 = board[1, currentRound];
-            execution.Fight(piecePlayer1, piecePlayer2);
+            RoundExecution.Fight(execution, piecePlayer1, piecePlayer2);
 
             currentRound++;
 
@@ -111,8 +110,8 @@ namespace AutumnYard.Miniduel
                 Console.WriteLine($"");
                 Console.WriteLine($"----------------------");
                 Console.WriteLine($"FINISHED!! ");
-                Console.WriteLine($"  And the winner was {execution.GetWinner()}");
-                Console.WriteLine($"  Results: {execution.ToString()}");
+                Console.WriteLine($"  And the winner was {RoundExecution.GetWinner(execution)}");
+                Console.WriteLine($"  Results: {execution}");
                 Console.WriteLine($"----------------------");
             }
 

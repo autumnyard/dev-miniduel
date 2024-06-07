@@ -24,6 +24,13 @@ namespace MiniduelRunner
                 Console.WriteLine();
             }
 
+            // results should be:
+            // 3 - 3, 1
+            // 0 - 0, 1
+            // 0 - 0, 0
+            // 3 - 2, 0
+            // 1 - 2, 1
+
             Console.ReadKey();
             return 0;
         }
@@ -106,18 +113,19 @@ namespace MiniduelRunner
         private static void TestAdd(Game game, int player, int location, EPiece piece)
         {
             bool result = game.SetPiece(player, location, piece);
-            Console.WriteLine($" - trying to place in [{player},{location}]. Result: {result}");
+            //Console.WriteLine($" - trying to place in [{player},{location}]. Result: {result}");
         }
 
         private static void TestStartDuel(Game game)
         {
-            Console.WriteLine($" - trying to duel. Result: {game.StartDuel()}");
+            //Console.WriteLine($" - trying to duel. Result: {game.StartDuel()}");
+            game.StartDuel();
         }
 
         private static void TestPlayNextRound(Game game)
         {
-            Console.WriteLine($"");
-            Console.WriteLine($" - playing next round...");
+            //Console.WriteLine($"");
+            //Console.WriteLine($" - playing next round...");
             game.PlayNextFight();
         }
     }
