@@ -6,10 +6,10 @@ namespace AutumnYard.Miniduel
     {
         private const int PLAYERS = 2;
         private const int FIGHTS = 3;
-        public EGameState state;
-        public EPiece[,] board;
-        public RoundExecution execution;
-        public int currentRound;
+        private EGameState state;
+        private EPiece[,] board;
+        private RoundExecution execution;
+        private int currentRound;
 
         public RoundState()
         {
@@ -24,7 +24,21 @@ namespace AutumnYard.Miniduel
             state = EGameState.Preparation;
         }
 
-        public bool IsValidPosition(int player, int location)
+        public bool SetPiece(int player, int location, EPiece piece)
+        {
+            bool correctState = state != EGameState.Preparation;
+            if (correctState)
+                return false;
+
+            bool isValidPosition = IsValidPosition(player, location);
+            if (isValidPosition == false)
+                return false;
+
+            board[player, location] = piece;
+            return true;
+        }
+
+        private bool IsValidPosition(int player, int location)
         {
             if (board.Rank <= player)
                 return false;
@@ -36,7 +50,23 @@ namespace AutumnYard.Miniduel
             return true;
         }
 
-        public bool CanDuel()
+        public bool StartDuel()
+        {
+            bool correctState = state != EGameState.Preparation;
+            if (correctState)
+                return false;
+
+            bool canDuel = CanDuel();
+            if (!canDuel)
+                return false;
+
+            state = EGameState.Dueling;
+            execution = new RoundExecution();
+            currentRound = 0;
+            return true;
+        }
+
+        private bool CanDuel()
         {
             for (int i = 0; i < PLAYERS; i++)
             {
@@ -50,29 +80,30 @@ namespace AutumnYard.Miniduel
             return true;
         }
 
-        public void StartDuel()
+        public bool PlayNextFight(out bool hasFinished)
         {
-            state = EGameState.Dueling;
+            hasFinished = false;
 
-            execution = new RoundExecution();
-            currentRound = 0;
+            bool correctState = state != EGameState.Dueling;
+            if (correctState)
+                return false;
+
+            bool result = PlayNextRound(out hasFinished);
+            return result;
         }
 
-        public bool PlayNextRound(out bool hasFinished)
+        private bool PlayNextRound(out bool hasFinished)
         {
             hasFinished = currentRound >= FIGHTS;
             if (hasFinished)
                 return false;
 
-            //var round = new RoundExecution();
             var piecePlayer1 = board[0, currentRound];
             var piecePlayer2 = board[1, currentRound];
             execution.Fight(piecePlayer1, piecePlayer2);
 
-            //results[currentRound] = round;
             currentRound++;
 
-            // TODO: Check if finished????
             hasFinished = currentRound >= FIGHTS;
             if (hasFinished)
             {

@@ -18,42 +18,30 @@
 
         public bool SetPiece(int player, int location, EPiece piece)
         {
-            bool correctState = _round.state != EGameState.Preparation;
-            if (correctState)
+            bool result = _round.SetPiece(player, location, piece);
+            if (!result)
                 return false;
 
-            bool isValidPosition = _round.IsValidPosition(player, location);
-            if (isValidPosition == false)
-                return false;
-
-            _round.board[player, location] = piece;
             _listener?.OnAddedPiece(player, location, piece);
             return true;
         }
 
         public bool StartDuel()
         {
-            bool correctState = _round.state != EGameState.Preparation;
-            if (correctState)
+            bool result = _round.StartDuel();
+            if (!result)
                 return false;
 
-            bool canDuel = _round.CanDuel();
-            if (!canDuel)
-                return false;
-
-            // TODO: Duel
-            _round.StartDuel();
             _listener?.OnStartDuel();
             return true;
         }
 
         public bool PlayNextFight()
         {
-            bool correctState = _round.state != EGameState.Dueling;
-            if (correctState)
+            bool result = _round.PlayNextFight(out bool hasFinished);
+            if (!result)
                 return false;
 
-            _round.PlayNextRound(out bool hasFinished);
             _listener?.OnPlayedFight(_round);
 
             if (hasFinished)
