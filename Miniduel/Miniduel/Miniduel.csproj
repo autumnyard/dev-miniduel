@@ -47,7 +47,8 @@
     <Compile Include="Game.cs" />
     <Compile Include="IEventsListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RoundExecution.cs" />
+    <Compile Include="Fight.cs" />
+    <Compile Include="RoundResults.cs" />
     <Compile Include="RoundState.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

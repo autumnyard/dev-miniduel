@@ -6,16 +6,19 @@ namespace AutumnYard.Miniduel
     {
         private const int PLAYERS = 2;
         private const int FIGHTS = 3;
+
+        // Round State
         private EGameState state;
         private EPiece[,] board;
-        private RoundExecution execution;
+
+        // Round Execution
         private int currentRound;
+        private FightResult[] results;
 
         public RoundState()
         {
             state = default;
             board = new EPiece[PLAYERS, FIGHTS];
-            execution = new RoundExecution();
             currentRound = 0;
         }
 
@@ -60,7 +63,7 @@ namespace AutumnYard.Miniduel
                 return false;
 
             state = EGameState.Dueling;
-            execution = new RoundExecution();
+            results = new FightResult[FIGHTS];
             currentRound = 0;
             return true;
         }
@@ -91,27 +94,48 @@ namespace AutumnYard.Miniduel
             return result;
         }
 
+
         private bool PlayNextRound(out bool hasFinished)
         {
             hasFinished = currentRound >= FIGHTS;
+
+            bool correctState = state != EGameState.Dueling;
+            if (correctState)
+                return false;
+
             if (hasFinished)
                 return false;
 
-            var piecePlayer1 = board[0, currentRound];
-            var piecePlayer2 = board[1, currentRound];
-            RoundExecution.Fight(execution, piecePlayer1, piecePlayer2);
+            FightData data = new FightData()
+            {
+                offense = FightOperations.CalculateOffense(in results, in currentRound),
+                piecePlayer1 = board[0, currentRound],
+                piecePlayer2 = board[1, currentRound],
+            };
 
-            currentRound++;
+            // Refresh
+            {
+                results[currentRound] = FightOperations.Fight(in data);
+                currentRound++;
+            }
+
+            // Print
+            {
+                Console.WriteLine(results[currentRound - 1]);
+                Console.WriteLine();
+            }
 
             hasFinished = currentRound >= FIGHTS;
             if (hasFinished)
             {
                 state = EGameState.Results;
+                RoundResults roundResults = FightOperations.CalculateResults(in results, in currentRound);
+
                 Console.WriteLine($"");
                 Console.WriteLine($"----------------------");
                 Console.WriteLine($"FINISHED!! ");
-                Console.WriteLine($"  And the winner was {RoundExecution.GetWinner(execution)}");
-                Console.WriteLine($"  Results: {execution}");
+                Console.WriteLine($"  And the winner was {RoundResults.GetWinner(roundResults)}");
+                Console.WriteLine($"  Results: {roundResults}");
                 Console.WriteLine($"----------------------");
             }
 
