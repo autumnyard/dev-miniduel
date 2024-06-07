@@ -9,6 +9,11 @@
             _round = new Round();
         }
 
+        public Game(IBoardEventsListener listener)
+        {
+            _round = new Round(listener);
+        }
+
         public bool SetPiece(int player, int location, EPiece piece)
         {
             bool result = _round.SetPiece(player, location, piece);

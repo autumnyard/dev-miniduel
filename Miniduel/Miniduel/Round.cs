@@ -19,12 +19,20 @@ namespace AutumnYard.Miniduel
         private ERoundState state;
         private EPiece[,] board;
         private List<FightResult> results;
+        private IBoardEventsListener _listener;
 
         public Round()
         {
             board = new EPiece[RoundConstants.PLAYERS, RoundConstants.FIGHTS];
             results = null;
             state = ERoundState.Preparation;
+        }
+        public Round(IBoardEventsListener listener)
+        {
+            board = new EPiece[RoundConstants.PLAYERS, RoundConstants.FIGHTS];
+            results = null;
+            state = ERoundState.Preparation;
+            _listener = listener;
         }
 
         public bool SetPiece(int player, int location, EPiece piece)
@@ -46,6 +54,7 @@ namespace AutumnYard.Miniduel
 
             // Consequences
             {
+                _listener?.OnSettedPiece(player, location, piece);
             }
 
             return true;
@@ -72,6 +81,7 @@ namespace AutumnYard.Miniduel
             // Consequences
             {
                 results = new List<FightResult>(RoundConstants.FIGHTS);
+                _listener?.OnStartedDuel();
             }
 
             return true;
@@ -98,6 +108,7 @@ namespace AutumnYard.Miniduel
             // Consequences
             {
                 Console.WriteLine(RoundOperations.GetLastRoundResult(results));
+                _listener?.OnPlayedNextFight(results);
             }
 
             return true;
@@ -124,6 +135,7 @@ namespace AutumnYard.Miniduel
             // Consequences
             {
                 Console.WriteLine(RoundOperations.GetFinishResults(results));
+                _listener?.OnFinished();
             }
 
             return true;
