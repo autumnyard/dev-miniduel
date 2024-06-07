@@ -1,7 +1,11 @@
-# This .gitignore file should be placed at the root of your Unity project directory
-#
-# Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
-#
+
+# ---------
+# stuff I add for the vs solution and project stuff
+[Bb]in/
+[Oo]bj/
+
+# ---------
+# default unity stuff
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
