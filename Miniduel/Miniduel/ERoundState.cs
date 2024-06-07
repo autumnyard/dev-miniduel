@@ -2,6 +2,8 @@
 {
     public enum ERoundState
     {
-        Preparation, Dueling, Finished,
+        Preparation, 
+        Dueling, 
+        Finished,
     }
 }

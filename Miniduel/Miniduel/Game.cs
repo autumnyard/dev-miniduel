@@ -20,7 +20,7 @@
 
         public bool StartDuel()
         {
-            bool result = _round.StartDuel();
+            bool result = _round.ChangeStateToDueling();
             if (!result)
                 return false;
 
@@ -29,7 +29,16 @@
 
         public bool PlayNextFight()
         {
-            bool result = _round.PlayNextFight(out bool hasFinished);
+            bool result = _round.PlayNextFight();
+            if (!result)
+                return false;
+
+            return true;
+        }
+
+        public bool FinishRound()
+        {
+            bool result = _round.ChangeStateToFinished();
             if (!result)
                 return false;
 

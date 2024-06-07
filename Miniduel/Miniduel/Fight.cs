@@ -59,7 +59,6 @@ namespace AutumnYard.Miniduel
             return rules[move];
         }
 
-
         public static bool CalculateOffense(IEnumerable<FightResult> results)
         {
             bool offense = false;
@@ -70,16 +69,6 @@ namespace AutumnYard.Miniduel
 
             return offense;
         }
-
-        public static RoundResults CalculateResults(IEnumerable<FightResult> results)
-        {
-            RoundResults roundResults = new RoundResults();
-            foreach (var result in results)
-            {
-                roundResults.AddFightResults(result);
-            }
-            return roundResults;
-        }
     }
 
 
@@ -89,6 +78,7 @@ namespace AutumnYard.Miniduel
         public EPiece piecePlayer1;
         public EPiece piecePlayer2;
     }
+
     public class FightResult
     {
         public int player1;

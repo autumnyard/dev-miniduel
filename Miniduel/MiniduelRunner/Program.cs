@@ -48,6 +48,7 @@ namespace MiniduelRunner
             TestPlayNextRound(game);
             TestPlayNextRound(game);
             TestPlayNextRound(game);
+            TestFinishRound(game);
         }
 
         private static void TestPlay_AllDefense()
@@ -63,6 +64,7 @@ namespace MiniduelRunner
             TestPlayNextRound(game);
             TestPlayNextRound(game);
             TestPlayNextRound(game);
+            TestFinishRound(game);
         }
 
         private static void TestPlay_AllParry()
@@ -78,6 +80,7 @@ namespace MiniduelRunner
             TestPlayNextRound(game);
             TestPlayNextRound(game);
             TestPlayNextRound(game);
+            TestFinishRound(game);
         }
 
         private static void TestPlay_Normal1()
@@ -93,6 +96,7 @@ namespace MiniduelRunner
             TestPlayNextRound(game);
             TestPlayNextRound(game);
             TestPlayNextRound(game);
+            TestFinishRound(game);
         }
 
         private static void TestPlay_Normal2()
@@ -108,6 +112,7 @@ namespace MiniduelRunner
             TestPlayNextRound(game);
             TestPlayNextRound(game);
             TestPlayNextRound(game);
+            TestFinishRound(game);
         }
 
         private static void TestAdd(Game game, int player, int location, EPiece piece)
@@ -127,6 +132,13 @@ namespace MiniduelRunner
             //Console.WriteLine($"");
             //Console.WriteLine($" - playing next round...");
             game.PlayNextFight();
+        }
+
+        private static void TestFinishRound(Game game)
+        {
+            //Console.WriteLine($"");
+            //Console.WriteLine($" - playing next round...");
+            game.FinishRound();
         }
     }
 }

@@ -7,98 +7,137 @@ namespace AutumnYard.Miniduel
     {
         public const int PLAYERS = 2;
         public const int FIGHTS = 3;
+        private const string PLAYER_1 = "Player 1";
+        private const string PLAYER_2 = "Player 2";
+
+        public static string GetPlayer(int integer) => (integer == 0 ? PLAYER_1 : PLAYER_2);
+        public static string GetPlayer(bool boolean) => (!boolean ? PLAYER_1 : PLAYER_2);
     }
 
     public class Round
     {
-        // Round State
         private ERoundState state;
         private EPiece[,] board;
-
-        // Round Execution
         private List<FightResult> results;
 
         public Round()
         {
-            state = default;
             board = new EPiece[RoundConstants.PLAYERS, RoundConstants.FIGHTS];
-
+            results = null;
             state = ERoundState.Preparation;
         }
 
         public bool SetPiece(int player, int location, EPiece piece)
         {
-            if (state != ERoundState.Preparation)
-                return false;
+            // Check requirements
+            {
+                if (state != ERoundState.Preparation)
+                    return false;
 
-            bool isValidPosition = RoundOperations.IsValidPosition(in board, player, location);
-            if (isValidPosition == false)
-                return false;
+                bool isValidPosition = RoundOperations.IsValidPosition(in board, player, location);
+                if (isValidPosition == false)
+                    return false;
+            }
 
-            board[player, location] = piece;
+            // Apply operation
+            {
+                RoundOperations.SetPiece(piece, player, location, ref board);
+            }
+
+            // Consequences
+            {
+            }
+
             return true;
         }
 
-        public bool StartDuel()
+        public bool ChangeStateToDueling()
         {
-            bool correctState = state != ERoundState.Preparation;
-            if (correctState)
-                return false;
+            // Check requirements
+            {
+                bool correctState = state == ERoundState.Preparation;
+                if (!correctState)
+                    return false;
 
-            bool canDuel = RoundOperations.CanDuel(in board);
-            if (!canDuel)
-                return false;
+                bool canDuel = RoundOperations.CanDuel(in board);
+                if (!canDuel)
+                    return false;
+            }
 
-            state = ERoundState.Dueling;
-            results = new List<FightResult>(RoundConstants.FIGHTS);
+            // Apply operation
+            {
+                state = ERoundState.Dueling;
+            }
+
+            // Consequences
+            {
+                results = new List<FightResult>(RoundConstants.FIGHTS);
+            }
+
             return true;
         }
 
-        public bool PlayNextFight(out bool hasFinished)
+        public bool PlayNextFight()
         {
-            int currentRound = results.Count;
-            hasFinished = currentRound >= RoundConstants.FIGHTS;
-
-            bool correctState = state != ERoundState.Dueling;
-            if (correctState)
-                return false;
-
-            if (hasFinished)
-                return false;
-
-            RoundOperations.PlayNextRound(in board, ref results);
-
-            // Refresh information
+            // Check requirements
             {
-                currentRound = results.Count;
-                hasFinished = currentRound >= RoundConstants.FIGHTS;
+                bool correctState = state != ERoundState.Dueling;
+                if (correctState)
+                    return false;
+
+                bool hasFinished = RoundOperations.CanFinish(in results);
+                if (hasFinished)
+                    return false;
             }
 
-            // Print
+            // Apply operation
             {
-                Console.WriteLine(results[currentRound - 1]);
-                Console.WriteLine();
+                RoundOperations.PlayNextRound(in board, ref results);
             }
 
-            if (hasFinished)
+            // Consequences
+            {
+                Console.WriteLine(RoundOperations.GetLastRoundResult(results));
+            }
+
+            return true;
+        }
+
+        public bool ChangeStateToFinished()
+        {
+            // Check requirements
+            {
+                bool correctState = state == ERoundState.Dueling;
+                if (!correctState)
+                    return false;
+
+                bool canFinish = RoundOperations.CanFinish(in results);
+                if (!canFinish)
+                    return false;
+            }
+
+            // Apply operation
             {
                 state = ERoundState.Finished;
-                RoundResults roundResults = FightOperations.CalculateResults(results);
+            }
 
-                Console.WriteLine($"");
-                Console.WriteLine($"----------------------");
-                Console.WriteLine($"FINISHED!! ");
-                Console.WriteLine($"  And the winner was {RoundResults.GetWinner(roundResults)}");
-                Console.WriteLine($"  Results: {roundResults}");
-                Console.WriteLine($"----------------------");
+            // Consequences
+            {
+                Console.WriteLine(RoundOperations.GetFinishResults(results));
             }
 
             return true;
         }
+
     }
 
     public static class RoundOperations
     {
+        public static void SetPiece(in EPiece piece, int player, int location, ref EPiece[,] board)
+        {
+            board[player, location] = piece;
+        }
+
         public static bool IsValidPosition(in EPiece[,] board, int player, int location)
         {
             if (board.Rank <= player)
@@ -138,9 +177,41 @@ namespace AutumnYard.Miniduel
 
             results.Add(FightOperations.Fight(in data));
         }
+
+        public static bool CanFinish(in List<FightResult> results)
+        {
+            return results.Count >= RoundConstants.FIGHTS;
+        }
+
+        public static RoundResult GetRoundResult(in List<FightResult> results)
+        {
+            RoundResult roundResults = new RoundResult();
+            foreach (var result in results)
+            {
+                roundResults.AddFightResults(result);
+            }
+            return roundResults;
+        }
+
+        public static string GetLastRoundResult(in List<FightResult> results)
+        {
+            return results[results.Count - 1].ToString();
+        }
+
+        public static string GetFinishResults(in List<FightResult> results)
+        {
+            RoundResult roundResults = GetRoundResult(results);
+            int winner = RoundResult.GetWinner(roundResults);
+            return
+                $"\n" +
+                $"\n-------------- FINISHED!! --------------" +
+                $"\n  And the winner was " + RoundConstants.GetPlayer(winner) +
+                $"\n  Results: {roundResults}" +
+                $"\n----------------------------------------";
+        }
     }
 
-    public sealed class RoundResults
+    public sealed class RoundResult
     {
         public int points1;
         public int points2;
@@ -153,7 +224,7 @@ namespace AutumnYard.Miniduel
             offense ^= results.offenseChange;
         }
 
-        public static int GetWinner(RoundResults execution)
+        public static int GetWinner(RoundResult execution)
         {
             if (execution.points1 == execution.points2)
                 return execution.offense ? 1 : 0;
@@ -163,7 +234,7 @@ namespace AutumnYard.Miniduel
 
         public override string ToString()
         {
-            return $"Round state: [{points1} - {points2}], offense in " + (!offense ? "Player 1" : "Player 2");
+            return $"Round state: [{points1} - {points2}], offense in " + RoundConstants.GetPlayer(offense);
         }
     }
 }
