@@ -11,7 +11,7 @@ This can furtherly be expanded to use that same `.dll library` containing the ga
 ## Sections
 
 ### Game
-the folder /Miniduel includes 
+the folder `/Miniduel` includes 
 - the visual studio solution: `/Miniduel/Miniduel.sln`
 - the project with the Game logic: `Miniduel/Miniduel/Miniduel.csproj`
 - another project with a console program to test this: `/Miniduel/Miniduel/MiniduelRunner.csproj`

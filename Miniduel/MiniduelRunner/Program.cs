@@ -118,7 +118,7 @@ namespace MiniduelRunner
         {
             Console.WriteLine($"");
             Console.WriteLine($" - playing next round...");
-            game.PlayNextRound();
+            game.PlayNextFight();
         }
     }
 }
