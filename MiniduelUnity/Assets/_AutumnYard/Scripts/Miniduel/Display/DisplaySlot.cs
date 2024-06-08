@@ -1,9 +1,9 @@
 using TMPro;
 using UnityEngine;
 
-namespace AutumnYard.Miniduel.Display
+namespace AutumnYard.Miniduel.Unity.Display
 {
-    public class SlotDisplay : MonoBehaviour
+    public class DisplaySlot : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _label;
 

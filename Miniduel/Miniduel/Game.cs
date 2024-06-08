@@ -1,8 +1,23 @@
-﻿namespace AutumnYard.Miniduel
+﻿using System.Collections.Generic;
+
+namespace AutumnYard.Miniduel
 {
+    public class FightResultDTO
+    {
+        public List<FightResult> fightResults;
+    }
+
+    public class RoundFinishedDTO
+    {
+        public int points1, points2;
+        public bool offense;
+        public int winner;
+    }
+
     public class Game
     {
         public Round _round;
+
 
         public Game()
         {

@@ -1,0 +1,1 @@
+xcopy .\Miniduel\Miniduel\bin\Debug\AutumnYard.Miniduel.dll .\MiniduelUnity\Assets\_AutumnYard\ /Y

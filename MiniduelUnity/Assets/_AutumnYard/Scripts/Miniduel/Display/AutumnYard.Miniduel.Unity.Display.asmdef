@@ -1,8 +1,8 @@
 {
-    "name": "AutumnYard.Miniduel.Runner",
-    "rootNamespace": "AutumnYard.Miniduel.Runner",
+    "name": "AutumnYard.Miniduel.Unity.Display",
+    "rootNamespace": "AutumnYard.Miniduel.Unity.Display",
     "references": [
-        "AutumnYard.Miniduel.Display"
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

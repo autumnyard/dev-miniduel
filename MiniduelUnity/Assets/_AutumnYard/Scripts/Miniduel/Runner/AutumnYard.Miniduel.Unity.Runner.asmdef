@@ -1,0 +1,17 @@
+{
+    "name": "AutumnYard.Miniduel.Unity.Runner",
+    "rootNamespace": "AutumnYard.Miniduel.Unity.Runner",
+    "references": [
+        "AutumnYard.Core",
+        "AutumnYard.Miniduel.Unity.Display"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

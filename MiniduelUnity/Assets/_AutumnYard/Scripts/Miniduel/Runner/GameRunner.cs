@@ -1,12 +1,13 @@
-using AutumnYard.Miniduel.Display;
+using AutumnYard.Miniduel.Unity.Display;
 using System;
 using UnityEngine;
 
-namespace AutumnYard.Miniduel.Runner
+namespace AutumnYard.Miniduel.Unity.Runner
 {
     public class GameRunner : MonoBehaviour
     {
-        [SerializeField] private BoardDisplay _boardDisplay;
+        [SerializeField] private DisplayBoard _boardDisplay;
+        [SerializeField] private UISystem _uiSystem;
 
         private Game _game;
 
@@ -17,7 +18,7 @@ namespace AutumnYard.Miniduel.Runner
 
         private void SetGame()
         {
-            _game = new Game(_boardDisplay);
+            _game = new Game(_uiSystem);
             //_game.SetPiece(0, 0, EPiece.Attack);
             //_game.SetPiece(1, 0, EPiece.Attack);
             //_game.SetPiece(0, 1, EPiece.Attack);
