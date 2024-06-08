@@ -1,11 +1,7 @@
 {
-    "name": "AutumnYard.Miniduel.Unity.Runner",
-    "rootNamespace": "AutumnYard.Miniduel.Unity.Runner",
-    "references": [
-        "AutumnYard.Core",
-        "AutumnYard.Miniduel.Unity.Display",
-        "AutumnYard.Miniduel.Unity.Handler"
-    ],
+    "name": "AutumnYard.Miniduel.Unity.Input",
+    "rootNamespace": "AutumnYard.Miniduel.Unity.Input",
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

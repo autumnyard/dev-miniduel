@@ -1,4 +1,4 @@
-﻿namespace AutumnYard.Miniduel.Unity.Runner
+﻿namespace AutumnYard.Miniduel.Unity.Handler
 {
     public class GameHandler
     {

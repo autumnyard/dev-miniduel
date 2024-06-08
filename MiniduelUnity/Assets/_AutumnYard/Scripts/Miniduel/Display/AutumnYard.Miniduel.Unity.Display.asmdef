@@ -4,7 +4,8 @@
     "references": [
         "Unity.TextMeshPro",
         "AutumnYard.Core",
-        "AutumnYard.Miniduel.Unity.Input"
+        "AutumnYard.Miniduel.Unity.Input",
+        "AutumnYard.Miniduel.Unity.Handler"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -1,4 +1,5 @@
 using AutumnYard.Miniduel.Unity.Display;
+using AutumnYard.Miniduel.Unity.Handler;
 using System;
 using UnityEngine;
 
@@ -68,6 +69,11 @@ namespace AutumnYard.Miniduel.Unity.Runner
         public void OnSetPiece_1_1(Int32 value) => _gameHandler.SetPiece(1, 1, (EPiece)value);
         public void OnSetPiece_0_2(Int32 value) => _gameHandler.SetPiece(0, 2, (EPiece)value);
         public void OnSetPiece_1_2(Int32 value) => _gameHandler.SetPiece(1, 2, (EPiece)value);
+
+        public void OnPieceSet(int player, int fight, EPiece piece)
+        {
+            _gameHandler.SetPiece(player, fight, piece);
+        }
 
         #endregion // Input
     }

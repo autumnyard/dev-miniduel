@@ -21,16 +21,14 @@ namespace AutumnYard.Miniduel
         private List<FightResult> results;
         private IBoardEventsListener _listener;
 
-        public List<FightResult> Results => results;
-
         public BoardDTO GetBoard
         {
             get
             {
                 return new BoardDTO()
                 {
-                    players = 2,
-                    fights = 3,
+                    players = RoundConstants.PLAYERS,
+                    fights = RoundConstants.FIGHTS,
                     board = board,
                 };
             }
@@ -192,7 +190,6 @@ namespace AutumnYard.Miniduel
 
             return true;
         }
-
     }
 
     public static class RoundOperations
@@ -234,12 +231,78 @@ namespace AutumnYard.Miniduel
 
             FightData data = new FightData()
             {
-                offense = FightOperations.CalculateOffense(results),
+                offense = CalculateOffense(results),
                 piecePlayer1 = board[0, currentRound],
                 piecePlayer2 = board[1, currentRound],
             };
 
-            results.Add(FightOperations.Fight(in data));
+            results.Add(Fight(in data));
+        }
+
+        public static FightResult Fight(in FightData data)
+        {
+            EPiece offense;
+            EPiece reaction;
+            bool opposite = false;
+
+            if (!data.offense)
+            {
+                offense = data.piecePlayer1;
+                reaction = data.piecePlayer2;
+                opposite = false;
+            }
+            else
+            {
+                offense = data.piecePlayer2;
+                reaction = data.piecePlayer1;
+                opposite = true;
+            }
+
+            // Rules:
+            // A vs A -> + 1/1, change offense
+            // A vs D -> + 0/1
+            // A vs P -> + 0/2, change offense
+            // D vs A -> + 1/0, change offense
+            // D vs D -> + 0/0, change offense
+            // D vs P -> + 0/0
+            // P vs A -> + 2/0
+            // P vs D -> + 0/0, change offense
+            // P vs P -> + 0/0
+
+            // TODO: Is there any way I could read this from a file outside the code, so I don't have to recompile to change them?
+            // TODO: The opposite bool is transient, so I have to rebuild this rule dictionary every single time the method is called
+            Dictionary<(EPiece, EPiece), FightResult> rules = new Dictionary<(EPiece, EPiece), FightResult>()
+            {
+                { (EPiece.Attack,   EPiece.Attack),     new FightResult(1, 1, true, opposite) },
+                { (EPiece.Attack,   EPiece.Defense),    new FightResult(0, 1, false, opposite) },
+                { (EPiece.Attack,   EPiece.Parry),      new FightResult(0, 2, true, opposite) },
+
+                { (EPiece.Defense,  EPiece.Attack),     new FightResult(1, 0, true, opposite) },
+                { (EPiece.Defense,  EPiece.Defense),    new FightResult(0, 0, true, opposite) },
+                { (EPiece.Defense,  EPiece.Parry),      new FightResult(0, 0, false, opposite) },
+
+                { (EPiece.Parry,    EPiece.Attack),     new FightResult(2, 0, false, opposite) },
+                { (EPiece.Parry,    EPiece.Defense),    new FightResult(0, 0, true, opposite) },
+                { (EPiece.Parry,    EPiece.Parry),      new FightResult(0, 0, false, opposite) },
+            };
+
+            var move = (offense, reaction);
+
+            if (!rules.ContainsKey(move))
+                return FightResult.Error;
+
+            return rules[move];
+        }
+
+        public static bool CalculateOffense(IEnumerable<FightResult> results)
+        {
+            bool offense = false;
+            foreach (var result in results)
+            {
+                offense ^= result.offenseChange;
+            }
+
+            return offense;
         }
 
         public static bool CanFinish(in List<FightResult> results)

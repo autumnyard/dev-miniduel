@@ -1,9 +1,12 @@
-(A) @admin Set version as v0.2
-(A) @miniduel Separate the Miniduel DTO getters into this new general Operations class
-(A) @ui Drawer, Input and Display. With drag&drop into the Slot
+x (A) @admin Set version as v0.2
+x (A) @ui Drawer, Input and Display. With drag&drop into the Slot
+(A) @ui Blinders to hide the information that should be hidden during play
 (B) @miniduel Simplify all Miniduel Operations into a single static class
 (B) @ui Import dotween or another tweening library
+(B) @input Create input system
 (C) @miniduel Study limiting the amount of pieces that a player can draw
 (C) @miniduel A Game should consist of 3 rounds
 (C) @ui IDisplayComponent, implementing by composition Show and Hide that return a Sequence
+(D) @miniduel Separate the Miniduel DTO getters into this new general Operations class
 (D) @ui MainMenu and everything
+@admin Study calling the copy-dll.bat file after building successfuly in the vs solution. The command call "$(SolutionDir)copy-dll.bat" exits with error 4.

@@ -14,9 +14,9 @@ namespace AutumnYard.Miniduel.Unity.Display
             public int winner;
             public bool hasFinished;
 
-            public string PointsPlayer1 => $"Player1: {points1} points";
-            public string PointsPlayer2 => $"Player1: {points2} points";
-            public string Offense => "Offense in " + (!offense ? "Player 1" : "Player 2");
+            public string PointsPlayer1 => $"Player1: <b>{points1}</b>";
+            public string PointsPlayer2 => $"Player2: <b>{points2}</b>";
+            public string Offense => (!offense ? "Player 1" : "Player 2") + " has offense";
             public string Winner => "Winner is" + (winner == 0 ? "Player 1" : "Player 2") + "!!";
         }
 

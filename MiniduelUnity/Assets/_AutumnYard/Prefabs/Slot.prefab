@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8623028169749235325}
   - component: {fileID: 9029710896469399493}
   m_Layer: 5
-  m_Name: Slot
+  m_Name: Slot 0-0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51,6 +51,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bfac494c82fb86429925f3500e2e7ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _player: 0
+  _fight: 0
+  _image: {fileID: 9029710896469399493}
   _label: {fileID: 3195773019076265575}
 --- !u!222 &8623028169749235325
 CanvasRenderer:
