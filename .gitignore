@@ -5,6 +5,7 @@
 [Oo]bj/
 /MiniduelUnity/*.csproj
 /MiniduelUnity/*.sln
+/MiniduelUnity/.utmp/
 
 # ---------
 # default unity stuff
