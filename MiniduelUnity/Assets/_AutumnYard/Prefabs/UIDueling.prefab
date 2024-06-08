@@ -122,8 +122,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: AutumnYard.Miniduel.Runner.GameRunner, AutumnYard.Miniduel.Runner
-        m_MethodName: PlayRound
+        m_TargetAssemblyTypeName: AutumnYard.Miniduel.Unity.Runner.GameRunner, AutumnYard.Miniduel.Unity.Runner
+        m_MethodName: RoundPlay
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -22,7 +22,7 @@ namespace AutumnYard.Miniduel.Unity.Runner
         }
 
         [ContextMenu("Auto play 1")]
-        private void TEST_AutoPlay1()
+        public void TEST_AutoPlay1()
         {
             _gameHandler.SetPiece(0, 0, EPiece.Attack);
             _gameHandler.SetPiece(1, 0, EPiece.Attack);
@@ -35,12 +35,12 @@ namespace AutumnYard.Miniduel.Unity.Runner
         [ContextMenu("Reset")]
         private void TEST_Reset()
         {
-            _gameHandler.SetGame(_uiSystem);
+            RoundReset();
         }
 
         #region Input
 
-        public void PlayRound()
+        public void RoundPlay()
         {
             bool result = _gameHandler.Game.StartDuel();
             if (result)
@@ -55,6 +55,11 @@ namespace AutumnYard.Miniduel.Unity.Runner
                 return;
 
             Debug.Log("FINISHED!!");
+        }
+
+        public void RoundReset()
+        {
+            _gameHandler.SetGame(_uiSystem);
         }
 
         public void OnSetPiece_0_0(Int32 value) => _gameHandler.SetPiece(0, 0, (EPiece)value);
