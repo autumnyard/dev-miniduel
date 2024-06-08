@@ -23,6 +23,19 @@ namespace AutumnYard.Miniduel
 
         public List<FightResult> Results => results;
 
+        public BoardDTO GetBoard
+        {
+            get
+            {
+                return new BoardDTO()
+                {
+                    players = 2,
+                    fights = 3,
+                    board = board,
+                };
+            }
+        }
+
         public FightResultDTO GetFightResult
         {
             get

@@ -2,6 +2,13 @@
 
 namespace AutumnYard.Miniduel
 {
+    public class BoardDTO
+    {
+        public int players = 2;
+        public int fights = 3;
+        public EPiece[,] board;
+    }
+
     public class FightResultDTO
     {
         public List<FightResult> fightResults;

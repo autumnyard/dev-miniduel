@@ -2,7 +2,9 @@
     "name": "AutumnYard.Miniduel.Unity.Display",
     "rootNamespace": "AutumnYard.Miniduel.Unity.Display",
     "references": [
-        "Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "AutumnYard.Core",
+        "AutumnYard.Miniduel.Unity.Input"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
