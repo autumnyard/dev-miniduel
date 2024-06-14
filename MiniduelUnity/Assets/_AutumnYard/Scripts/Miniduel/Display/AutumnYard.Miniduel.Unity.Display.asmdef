@@ -5,7 +5,8 @@
         "Unity.TextMeshPro",
         "AutumnYard.Core",
         "AutumnYard.Miniduel.Unity.Input",
-        "AutumnYard.Miniduel.Unity.Handler"
+        "AutumnYard.Miniduel.Unity.Handler",
+        "DOTween.Modules"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

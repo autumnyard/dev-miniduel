@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -15,6 +16,11 @@ namespace AutumnYard.Miniduel.Unity.Display
         private RectTransform _transform;
         private Vector2 _defaultPosition;
 
+        [Header("Animation")]
+        [SerializeField] private RectTransform _animationContainer;
+        [SerializeField] private Vector3 _idleAnimationRotation = new Vector3(0, 0, 5);
+        [SerializeField] private float _idleAnimationDuration = .6f;
+
         public EPiece Piece => _piece;
 
         private void OnValidate()
@@ -22,7 +28,7 @@ namespace AutumnYard.Miniduel.Unity.Display
             if (_piece == EPiece.None)
                 _piece = EPiece.Attack;
 
-            name = $"DragPiece ({_piece})";
+            //name = $"DragPiece ({_piece})";
 
             if (_canvasGroup == null) _canvasGroup = GetComponent<CanvasGroup>();
             if (_pieceLabel == null) _pieceLabel = GetComponentInChildren<TextMeshProUGUI>();
@@ -42,6 +48,21 @@ namespace AutumnYard.Miniduel.Unity.Display
         private void Start()
         {
             _pieceLabel.text = DisplayUtils.GetPieceWithColor(_piece);
+            PlayAnimationIdle();
+        }
+
+        private void PlayAnimationIdle()
+        {
+            _animationContainer.localEulerAngles = -_idleAnimationRotation;
+            _animationContainer.DORotate(_idleAnimationRotation, _idleAnimationDuration)
+                .SetEase(Ease.InOutQuint)
+                .SetLoops(-1, LoopType.Yoyo);
+        }
+
+        private void StopAnimation()
+        {
+            _animationContainer.DOKill();
+            _animationContainer.localEulerAngles = Vector3.zero;
         }
 
         #region Drag & Drop
@@ -49,6 +70,7 @@ namespace AutumnYard.Miniduel.Unity.Display
         public void OnBeginDrag(PointerEventData eventData)
         {
             //Debug.Log($" ---- OnBeginDrag {eventData}");
+            StopAnimation();
             _canvasGroup.alpha = .7f;
             _canvasGroup.blocksRaycasts = false;
         }
@@ -65,6 +87,7 @@ namespace AutumnYard.Miniduel.Unity.Display
             _canvasGroup.alpha = 1f;
             _canvasGroup.blocksRaycasts = true;
             _transform.anchoredPosition = _defaultPosition;
+            PlayAnimationIdle();
         }
 
         public void OnPointerDown(PointerEventData eventData)

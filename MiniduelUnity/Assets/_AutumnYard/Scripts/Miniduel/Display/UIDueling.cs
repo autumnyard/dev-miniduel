@@ -1,5 +1,6 @@
 using AutumnYard.Unity.Core;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace AutumnYard.Miniduel.Unity.Display
 {
@@ -13,6 +14,9 @@ namespace AutumnYard.Miniduel.Unity.Display
 
         [SerializeField] private DisplayBoard _board;
         [SerializeField] private DisplayResults _results;
+        [SerializeField] private Image _blockLocation1;
+        [SerializeField] private Image _blockLocation2;
+        [SerializeField] private Image _blockLocation3;
 
         private DTO _dto;
 
@@ -21,6 +25,48 @@ namespace AutumnYard.Miniduel.Unity.Display
             _dto = dto;
             _board.Set(_dto.board);
             _results.Set(_dto.results);
+
+            Refresh();
+        }
+
+        private void Refresh()
+        {
+            switch (_dto.results.round)
+            {
+                default:
+                case 0:
+                    {
+                        _blockLocation1.gameObject.SetActive(true);
+                        _blockLocation2.gameObject.SetActive(true);
+                        _blockLocation3.gameObject.SetActive(true);
+                    }
+                    break;
+
+                case 1:
+                    {
+                        _blockLocation1.gameObject.SetActive(false);
+                        _blockLocation2.gameObject.SetActive(true);
+                        _blockLocation3.gameObject.SetActive(true);
+                    }
+                    break;
+
+                case 2:
+                    {
+                        _blockLocation1.gameObject.SetActive(false);
+                        _blockLocation2.gameObject.SetActive(false);
+                        _blockLocation3.gameObject.SetActive(true);
+                    }
+                    break;
+
+                case 3:
+                    {
+                        _blockLocation1.gameObject.SetActive(false);
+                        _blockLocation2.gameObject.SetActive(false);
+                        _blockLocation3.gameObject.SetActive(false);
+                    }
+                    break;
+            }
+
         }
     }
 }

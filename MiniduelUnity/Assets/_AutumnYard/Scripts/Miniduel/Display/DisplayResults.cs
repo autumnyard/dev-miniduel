@@ -1,4 +1,5 @@
 using AutumnYard.Unity.Core;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ namespace AutumnYard.Miniduel.Unity.Display
     {
         public class DTO
         {
+            public int round;
             public int points1;
             public int points2;
             public bool offense;
@@ -46,11 +48,35 @@ namespace AutumnYard.Miniduel.Unity.Display
             {
                 _winnerLabel.text = _dto.Winner;
                 _winnerLabel.gameObject.SetActive(true);
+                StartAnimationWinner();
             }
             else
             {
                 _winnerLabel.gameObject.SetActive(false);
+                StopAnimation();
             }
+        }
+
+        private void StartAnimationWinner()
+        {
+            Vector3 scale = Vector3.one * 1.1f;
+            _winnerLabel.rectTransform.localScale = Vector3.one;
+            _winnerLabel.rectTransform.DOScale(scale, .3f)
+                .SetEase(Ease.InOutQuad)
+                .SetLoops(-1, LoopType.Yoyo);
+
+            Vector3 rotation = new Vector3(0, 0, 2);
+            _winnerLabel.rectTransform.localEulerAngles = -rotation;
+            _winnerLabel.rectTransform.DOLocalRotate(rotation, .4f)
+                .SetEase(Ease.InOutQuad)
+                .SetLoops(-1, LoopType.Yoyo);
+        }
+
+        private void StopAnimation()
+        {
+            _winnerLabel.rectTransform.DOKill();
+            _winnerLabel.rectTransform.localScale = Vector3.one;
+            _winnerLabel.rectTransform.localEulerAngles = Vector3.zero;
         }
     }
 }

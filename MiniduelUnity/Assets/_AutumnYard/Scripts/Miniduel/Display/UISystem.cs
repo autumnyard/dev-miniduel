@@ -138,6 +138,7 @@ namespace AutumnYard.Miniduel.Unity.Display
         {
             DisplayResults.DTO resultsDTO = new DisplayResults.DTO()
             {
+                round = 0,
                 points1 = 0,
                 points2 = 0,
             };
@@ -163,6 +164,7 @@ namespace AutumnYard.Miniduel.Unity.Display
             RoundResult result = RoundOperations.GetRoundResult(fight.fightResults);
             DisplayResults.DTO results = new DisplayResults.DTO()
             {
+                round = fight.fightResults.Count,
                 points1 = result.points1,
                 points2 = result.points2,
                 offense = result.offense,
