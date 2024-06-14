@@ -266,9 +266,9 @@ MonoBehaviour:
   _canvasGroup: {fileID: 2612016973473746357}
   _pieceLabel: {fileID: 3260903827579859604}
   _piece: 1
-  _animationContainer: {fileID: 6644319076014690277}
-  _idleAnimationRotation: {x: 0, y: 0, z: 5}
-  _idleAnimationDuration: 0.6
+  _tweenContainer: {fileID: 6644319076014690277}
+  _idleTweenRotation: {x: 0, y: 0, z: 4}
+  _idleTweenDuration: 0.4
 --- !u!225 &2612016973473746357
 CanvasGroup:
   m_ObjectHideFlags: 0

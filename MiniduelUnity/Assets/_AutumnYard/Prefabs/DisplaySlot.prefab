@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1332427069995622612}
   - component: {fileID: 5739491420962426107}
+  - component: {fileID: 2489026278897627980}
   m_Layer: 5
-  m_Name: Slot
+  m_Name: DisplaySlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53,9 +54,32 @@ MonoBehaviour:
   _fight: 0
   _image: {fileID: 4561263006259418445}
   _label: {fileID: 3195773019076265575}
-  _animationContainer: {fileID: 1540561389251888052}
-  _hoverAnimationScale: 1.2
-  _hoverAnimationDuration: 0.4
+  _animator: {fileID: 2489026278897627980}
+  _tweenContainer: {fileID: 1540561389251888052}
+  _hoverTweenScale: 1.2
+  _hoverTweenDuration: 0.4
+--- !u!95 &2489026278897627980
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4754772120980289424}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 854a2c37b60274e419de23e0c8bb5a5a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6868919606384737878
 GameObject:
   m_ObjectHideFlags: 0

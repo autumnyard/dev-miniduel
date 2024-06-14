@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 namespace AutumnYard.Miniduel.Unity.Display
 {
+    [RequireComponent(typeof(Animator))]
     public class DisplaySlot : MonoBehaviour,
         IDropHandler, IPointerEnterHandler, IPointerExitHandler
     {
@@ -15,10 +16,15 @@ namespace AutumnYard.Miniduel.Unity.Display
         [SerializeField] private Image _image;
         [SerializeField] private TextMeshProUGUI _label;
 
-        [Header("Animation")]
-        [SerializeField] private RectTransform _animationContainer;
-        [SerializeField] private float _hoverAnimationScale = 1.2f;
-        [SerializeField] private float _hoverAnimationDuration = .4f;
+        [Header("Animator")]
+        [SerializeField] private Animator _animator;
+
+        [Header("Tweening")]
+        [SerializeField] private RectTransform _tweenContainer;
+        [SerializeField] private float _hoverTweenScale = 1.2f;
+        [SerializeField] private float _hoverTweenDuration = .4f;
+
+        private EPiece _piece;
 
         private void OnValidate()
         {
@@ -28,18 +34,21 @@ namespace AutumnYard.Miniduel.Unity.Display
 
             if (_image == null) _image = GetComponent<Image>();
             if (_image == null) _image = GetComponentInChildren<Image>();
+
+            if (_animator == null) _animator = GetComponent<Animator>();
         }
 
         public void Set(EPiece piece)
         {
-            if (piece == EPiece.None)
+            _piece = piece;
+            if (_piece == EPiece.None)
             {
                 _label.alpha = 0f;
                 _image.color = Color.gray;
             }
             else
             {
-                _label.text = DisplayUtils.GetPieceWithColor(piece);
+                _label.text = DisplayUtils.GetPieceWithColor(_piece);
                 _label.alpha = 1f;
                 _image.color = Color.white;
             }
@@ -56,9 +65,9 @@ namespace AutumnYard.Miniduel.Unity.Display
             if (dragPiece == null)
                 return;
 
-            StopAnimation();
-            GameHandler.Instance.SetPiece(_player, _fight, dragPiece.Piece);
-
+            StopTween();
+            _piece = dragPiece.Piece;
+            GameHandler.Instance.SetPiece(_player, _fight, _piece);
         }
 
         public void OnPointerEnter(PointerEventData eventData)
@@ -70,7 +79,7 @@ namespace AutumnYard.Miniduel.Unity.Display
             if (dragPiece == null)
                 return;
 
-            PlayAnimationHover();
+            PlayTweenHover();
         }
 
         public void OnPointerExit(PointerEventData eventData)
@@ -82,22 +91,35 @@ namespace AutumnYard.Miniduel.Unity.Display
             if (dragPiece == null)
                 return;
 
-            StopAnimation();
+            StopTween();
 
         }
 
-        private void PlayAnimationHover()
+        [ContextMenu("Play animation")]
+        public void PlayAnimation()
         {
-            _animationContainer.DOKill();
-            _animationContainer.localScale = Vector3.one;
-            _animationContainer.DOScale(Vector3.one * _hoverAnimationScale, _hoverAnimationDuration)
+            _animator.SetTrigger(_piece.ToString());
+        }
+
+        [ContextMenu("Reset animation")]
+        public void ResetAnimation()
+        {
+            _animator.SetTrigger("Clear");
+        }
+
+
+        private void PlayTweenHover()
+        {
+            _tweenContainer.DOKill();
+            _tweenContainer.localScale = Vector3.one;
+            _tweenContainer.DOScale(Vector3.one * _hoverTweenScale, _hoverTweenDuration)
                 .SetEase(Ease.OutQuad);
         }
 
-        private void StopAnimation()
+        private void StopTween()
         {
-            _animationContainer.DOKill();
-            _animationContainer.DOScale(Vector3.one, _hoverAnimationDuration)
+            _tweenContainer.DOKill();
+            _tweenContainer.DOScale(Vector3.one, _hoverTweenDuration)
                 .SetEase(Ease.OutQuad);
         }
     }

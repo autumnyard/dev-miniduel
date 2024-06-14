@@ -48,16 +48,16 @@ namespace AutumnYard.Miniduel.Unity.Display
             {
                 _winnerLabel.text = _dto.Winner;
                 _winnerLabel.gameObject.SetActive(true);
-                StartAnimationWinner();
+                StartTweenWinner();
             }
             else
             {
                 _winnerLabel.gameObject.SetActive(false);
-                StopAnimation();
+                StopTween();
             }
         }
 
-        private void StartAnimationWinner()
+        private void StartTweenWinner()
         {
             Vector3 scale = Vector3.one * 1.1f;
             _winnerLabel.rectTransform.localScale = Vector3.one;
@@ -72,7 +72,7 @@ namespace AutumnYard.Miniduel.Unity.Display
                 .SetLoops(-1, LoopType.Yoyo);
         }
 
-        private void StopAnimation()
+        private void StopTween()
         {
             _winnerLabel.rectTransform.DOKill();
             _winnerLabel.rectTransform.localScale = Vector3.one;

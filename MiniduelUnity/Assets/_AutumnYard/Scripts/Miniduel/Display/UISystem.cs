@@ -145,6 +145,8 @@ namespace AutumnYard.Miniduel.Unity.Display
             var board = round.GetBoard;
             DisplayBoard.DTO boardDTO = new DisplayBoard.DTO()
             {
+                isDueling = true,
+                dueledRound = -1,
                 players = board.players,
                 locations = board.fights,
                 board = board.board,
@@ -173,6 +175,8 @@ namespace AutumnYard.Miniduel.Unity.Display
             var board = round.GetBoard;
             DisplayBoard.DTO boardDto = new DisplayBoard.DTO()
             {
+                isDueling = true,
+                dueledRound = fight.fightResults.Count - 1,
                 players = board.players,
                 locations = board.fights,
                 board = board.board,

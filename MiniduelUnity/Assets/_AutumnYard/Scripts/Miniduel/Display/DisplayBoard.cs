@@ -7,6 +7,9 @@ namespace AutumnYard.Miniduel.Unity.Display
     {
         public class DTO
         {
+            public bool isDueling;
+            public int dueledRound;
+
             public int players;
             public int locations;
             public EPiece[,] board;
@@ -24,15 +27,44 @@ namespace AutumnYard.Miniduel.Unity.Display
         public void Set(DTO dto)
         {
             _dto = dto;
+
             Refresh();
         }
 
         public void Refresh()
         {
+            if (_dto.isDueling)
+            {
+                if (_dto.dueledRound == -1)
+                {
+                    ResetAnimations();
+                }
+                else
+                {
+                    PlayAnimation(0, _dto.dueledRound);
+                    PlayAnimation(1, _dto.dueledRound);
+                }
+            }
+
             for (int i = 0; i < _dto.locations; i++)
             {
                 SetPiece(0, i, _dto.board[0, i]);
                 SetPiece(1, i, _dto.board[1, i]);
+            }
+        }
+
+        public void PlayAnimation(int player, int location)
+        {
+            var slot = GetSlot(player, location);
+            slot.PlayAnimation();
+        }
+
+        private void ResetAnimations()
+        {
+            for (int i = 0; i < _dto.locations; i++)
+            {
+                _slotsPlayer1[i].ResetAnimation();
+                _slotsPlayer2[i].ResetAnimation();
             }
         }
 
