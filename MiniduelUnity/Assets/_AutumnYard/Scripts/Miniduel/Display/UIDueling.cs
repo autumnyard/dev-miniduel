@@ -9,10 +9,12 @@ namespace AutumnYard.Miniduel.Unity.Display
         public class DTO
         {
             public DisplayBoard.DTO board;
+            public DisplayDueling.DTO duel;
             public DisplayResults.DTO results;
         }
 
         [SerializeField] private DisplayBoard _board;
+        [SerializeField] private DisplayDueling _duel;
         [SerializeField] private DisplayResults _results;
         [SerializeField] private Image _blockLocation1;
         [SerializeField] private Image _blockLocation2;
@@ -24,6 +26,7 @@ namespace AutumnYard.Miniduel.Unity.Display
         {
             _dto = dto;
             _board.Set(_dto.board);
+            _duel.Set(_dto.duel);
             _results.Set(_dto.results);
 
             Refresh();

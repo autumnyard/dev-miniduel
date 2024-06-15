@@ -7,14 +7,14 @@ namespace AutumnYard.Miniduel.Unity.Display
     {
         public class DTO
         {
-            public bool isDueling;
-            public int dueledRound;
-
+            public int lastFightIndex = -1;
             public int players;
             public int locations;
             public EPiece[,] board;
             public int newPiecePlayer;
             public int newPieceLocation;
+
+            public bool IsDueling => lastFightIndex >= 0;
         }
 
         [SerializeField] private DisplayPanel[] _panels;
@@ -33,17 +33,15 @@ namespace AutumnYard.Miniduel.Unity.Display
 
         public void Refresh()
         {
-            if (_dto.isDueling)
+            if (!_dto.IsDueling)
             {
-                if (_dto.dueledRound == -1)
-                {
-                    ResetAnimations();
-                }
-                else
-                {
-                    PlayAnimation(0, _dto.dueledRound);
-                    PlayAnimation(1, _dto.dueledRound);
-                }
+                ResetAnimations();
+            }
+            else
+            {
+                PlayAnimation(0, _dto.lastFightIndex);
+                PlayAnimation(1, _dto.lastFightIndex);
+                return;
             }
 
             for (int i = 0; i < _dto.locations; i++)

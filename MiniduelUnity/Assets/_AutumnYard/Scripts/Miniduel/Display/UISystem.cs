@@ -141,12 +141,19 @@ namespace AutumnYard.Miniduel.Unity.Display
                 round = 0,
                 points1 = 0,
                 points2 = 0,
+                offense = false,
             };
             var board = round.GetBoard;
+            DisplayDueling.DTO duelDTO = new DisplayDueling.DTO()
+            {
+                lastFightIndex = -1,
+                lastFightPointsPlayer1 = 0,
+                lastFightPointsPlayer2 = 0,
+                offense = false,
+            };
             DisplayBoard.DTO boardDTO = new DisplayBoard.DTO()
             {
-                isDueling = true,
-                dueledRound = -1,
+                lastFightIndex = -1,
                 players = board.players,
                 locations = board.fights,
                 board = board.board,
@@ -154,8 +161,9 @@ namespace AutumnYard.Miniduel.Unity.Display
 
             UIDueling.DTO dto = new UIDueling.DTO()
             {
-                results = resultsDTO,
                 board = boardDTO,
+                results = resultsDTO,
+                duel = duelDTO,
             };
             return dto;
         }
@@ -164,19 +172,27 @@ namespace AutumnYard.Miniduel.Unity.Display
         {
             FightResultDTO fight = round.GetFightResult;
             RoundResult result = RoundOperations.GetRoundResult(fight.fightResults);
-            DisplayResults.DTO results = new DisplayResults.DTO()
+            DisplayResults.DTO resultsDTO = new DisplayResults.DTO()
             {
                 round = fight.fightResults.Count,
                 points1 = result.points1,
                 points2 = result.points2,
                 offense = result.offense,
             };
-
             var board = round.GetBoard;
-            DisplayBoard.DTO boardDto = new DisplayBoard.DTO()
+            int lastFightIndex = fight.fightResults.Count - 1;
+            var lastFight = fight.fightResults[lastFightIndex];
+            DisplayDueling.DTO duelDTO = new DisplayDueling.DTO()
             {
-                isDueling = true,
-                dueledRound = fight.fightResults.Count - 1,
+                lastFightIndex = lastFightIndex,
+                lastFightPointsPlayer1 = lastFight.player1,
+                lastFightPointsPlayer2 = lastFight.player2,
+                offenseChange = lastFight.offenseChange,
+                offense = result.offense,
+            };
+            DisplayBoard.DTO boardDTO = new DisplayBoard.DTO()
+            {
+                lastFightIndex = lastFightIndex,
                 players = board.players,
                 locations = board.fights,
                 board = board.board,
@@ -184,8 +200,9 @@ namespace AutumnYard.Miniduel.Unity.Display
 
             UIDueling.DTO dto = new UIDueling.DTO()
             {
-                results = results,
-                board = boardDto,
+                board = boardDTO,
+                results = resultsDTO,
+                duel = duelDTO,
             };
             return dto;
         }
