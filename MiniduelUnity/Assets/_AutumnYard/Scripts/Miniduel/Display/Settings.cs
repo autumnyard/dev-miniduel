@@ -8,6 +8,7 @@ namespace AutumnYard.Miniduel.Unity.Display
     {
         [SerializeField] private PieceSetting _default = PieceSetting.Default;
         [SerializeField] private PieceSetting[] _pieces;
+        [SerializeField] private AudioSFXSetting[] _sfx;
 
         public PieceSetting GetPieceSetting(EPiece piece)
         {
@@ -17,6 +18,16 @@ namespace AutumnYard.Miniduel.Unity.Display
                     return _pieces[i];
             }
             return _default;
+        }
+
+        public AudioSFXSetting GetAudioSFXSetting(EAudioSFX sfx)
+        {
+            for (int i = 0; i < _sfx.Length; i++)
+            {
+                if (_sfx[i].id == sfx)
+                    return _sfx[i];
+            }
+            return null;
         }
 
         [Serializable]
@@ -35,6 +46,14 @@ namespace AutumnYard.Miniduel.Unity.Display
                     color = Color.gray,
                     text = "-"
                 };
+        }
+
+
+        [Serializable]
+        public class AudioSFXSetting
+        {
+            public EAudioSFX id;
+            public AudioClip clip;
         }
     }
 }

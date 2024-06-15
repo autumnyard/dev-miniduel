@@ -8,12 +8,12 @@ using UnityEngine.UI;
 namespace AutumnYard.Miniduel.Unity.Display
 {
     [RequireComponent(typeof(Animator))]
-    public class DisplaySlot : MonoBehaviour,
-        IDropHandler, IPointerEnterHandler, IPointerExitHandler
+    public sealed class DisplaySlot : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
     {
         public interface IEventsListener
         {
-            void OnFinishedFightAnimations();
+            void OnSettedPiece(DisplaySlot slot, EPiece piece);
+            void OnFinishedFightAnimations(DisplaySlot slot);
         }
 
         [Header("Configuration")]
@@ -58,6 +58,13 @@ namespace AutumnYard.Miniduel.Unity.Display
             if (piece == _piece)
                 return;
 
+            _piece = piece;
+            Refresh();
+            _listener?.OnSettedPiece(this, _piece);
+        }
+
+        public void ForceSet(EPiece piece)
+        {
             _piece = piece;
             Refresh();
         }
@@ -107,7 +114,7 @@ namespace AutumnYard.Miniduel.Unity.Display
 
         public void OnFinishedAnimation()
         {
-            _listener?.OnFinishedFightAnimations();
+            _listener?.OnFinishedFightAnimations(this);
         }
 
         #endregion // Event Listening

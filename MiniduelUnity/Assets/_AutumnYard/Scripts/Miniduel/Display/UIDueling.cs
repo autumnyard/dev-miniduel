@@ -4,8 +4,7 @@ using UnityEngine.UI;
 
 namespace AutumnYard.Miniduel.Unity.Display
 {
-    public class UIDueling : Displayable,
-        DisplayBoard.IEventsListener
+    public class UIDueling : Displayable, DisplayBoard.IEventsListener
     {
         public class DTO
         {
@@ -47,6 +46,7 @@ namespace AutumnYard.Miniduel.Unity.Display
         public void OnFinishedFightAnimations()
         {
             _duel.RefreshAfterFight();
+            AudioHandler.Instance.Play(EAudioSFX.Clash);
         }
 
         #endregion // Event Listening

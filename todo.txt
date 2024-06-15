@@ -17,3 +17,5 @@ x (A) +ui +ux FightResults delay. The animations of FightResults are the consequ
 (B) +ui +ux Board/FightResults should show in the board which Slot had the offense in the fight.
 (C) +ui +ux More animations and ux for the points and offense.
 (A) +ui An autoplay mode for the UIFinished recap.
+x (B) +audio Audio
+(B) +miniduel Rename ERoundState > ERoundPhase.

@@ -21,6 +21,8 @@ namespace AutumnYard.Miniduel
         private List<FightResult> results;
         private IBoardEventsListener _listener;
 
+        public ERoundState State => state;
+
         public BoardDTO GetBoard
         {
             get

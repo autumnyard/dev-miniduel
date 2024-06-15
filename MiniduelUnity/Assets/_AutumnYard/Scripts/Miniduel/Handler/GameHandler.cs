@@ -1,20 +1,9 @@
-﻿namespace AutumnYard.Miniduel.Unity.Handler
+﻿using AutumnYard.Unity.Core;
+
+namespace AutumnYard.Miniduel.Unity.Handler
 {
-    public class GameHandler
+    public class GameHandler : Singleton<GameHandler>
     {
-        private static GameHandler _instance;
-
-        public static GameHandler Instance
-        {
-            get
-            {
-                if (_instance == null)
-                    _instance = new GameHandler();
-
-                return _instance;
-            }
-        }
-
         private Game _game;
 
         public Game Game => _game;

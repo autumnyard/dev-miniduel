@@ -108,6 +108,7 @@ namespace AutumnYard.Miniduel.Unity.Display
             var board = round.GetBoard;
             DisplayBoard.DTO boardDTO = new DisplayBoard.DTO()
             {
+                state = round.State,
                 players = board.players,
                 locations = board.fights,
                 board = board.board,
@@ -126,6 +127,7 @@ namespace AutumnYard.Miniduel.Unity.Display
             var board = round.GetBoard;
             DisplayBoard.DTO boardDTO = new DisplayBoard.DTO()
             {
+                state = round.State,
                 players = board.players,
                 locations = board.fights,
                 board = board.board,
@@ -156,6 +158,7 @@ namespace AutumnYard.Miniduel.Unity.Display
             };
             DisplayBoard.DTO boardDTO = new DisplayBoard.DTO()
             {
+                state = round.State,
                 lastFightIndex = -1,
                 players = board.players,
                 locations = board.fights,
@@ -195,6 +198,7 @@ namespace AutumnYard.Miniduel.Unity.Display
             };
             DisplayBoard.DTO boardDTO = new DisplayBoard.DTO()
             {
+                state = round.State,
                 lastFightIndex = lastFightIndex,
                 players = board.players,
                 locations = board.fights,
@@ -225,6 +229,7 @@ namespace AutumnYard.Miniduel.Unity.Display
             var board = round.GetBoard;
             DisplayBoard.DTO boardDTO = new DisplayBoard.DTO()
             {
+                state = round.State,
                 players = board.players,
                 locations = board.fights,
                 board = board.board,

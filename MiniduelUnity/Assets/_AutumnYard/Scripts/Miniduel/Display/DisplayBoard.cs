@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace AutumnYard.Miniduel.Unity.Display
 {
-    public class DisplayBoard : Displayable,
-        DisplaySlot.IEventsListener
+    public class DisplayBoard : Displayable, DisplaySlot.IEventsListener
     {
         public class DTO
         {
+            public ERoundState state;
             public int lastFightIndex = -1;
             public int players;
             public int locations;
@@ -48,6 +48,7 @@ namespace AutumnYard.Miniduel.Unity.Display
             Refresh();
         }
 
+
         #region Event Listening
 
         public void SetListener(IEventsListener listener)
@@ -67,13 +68,28 @@ namespace AutumnYard.Miniduel.Unity.Display
                 for (int i = 0; i < _slotsPlayer1.Length; i++)
                 {
                     _slotsPlayer1[i].UnsetListener();
+                    _slotsPlayer2[i].UnsetListener();
                 }
                 _slotsPlayer1[_dto.lastFightIndex].SetListener(this);
             }
+            else
+            {
+                for (int i = 0; i < _slotsPlayer1.Length; i++)
+                {
+                    _slotsPlayer1[i].SetListener(this);
+                    _slotsPlayer2[i].SetListener(this);
+                }
+            }
         }
 
-        public void OnFinishedFightAnimations()
+        public void OnSettedPiece(DisplaySlot slot, EPiece piece)
         {
+            AudioHandler.Instance.Play(EAudioSFX.SetPiece);
+        }
+
+        public void OnFinishedFightAnimations(DisplaySlot slot)
+        {
+            Debug.Log($" ---- OnFinishedFightAnimations {slot}");
             _listener?.OnFinishedFightAnimations();
         }
 
@@ -130,7 +146,10 @@ namespace AutumnYard.Miniduel.Unity.Display
             bool newPiece = player == _dto.newPiecePlayer && location == _dto.newPieceLocation;
             bool unsettedPiece = piece == EPiece.None;
 
-            GetSlot(player, location).Set(piece);
+            if (_dto.state == ERoundState.Preparation)
+                GetSlot(player, location).Set(piece);
+            else
+                GetSlot(player, location).ForceSet(piece);
         }
 
         private DisplaySlot GetSlot(int player, int location)
@@ -140,5 +159,6 @@ namespace AutumnYard.Miniduel.Unity.Display
             else
                 return _slotsPlayer2[location];
         }
+
     }
 }
