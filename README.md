@@ -19,10 +19,14 @@ the folder `/Miniduel` includes
 ### Unity
 Folders
 - The folder `/Assets/_AutumnYard` includes everything done by me.
-- Included the plugin DoTween.
 
 Arch
 - Every display has it's own DTO and EventListener if needed.
 
 Implementation notes
 - Piece fight animations must have the same duration, because only one OnAnimationComplete of the two pieces is listened to.
+
+Third party plugins used:
+- Plugin: DOTween (HOTween v2), by Demigiant. Link: [Unity Asset Store](https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676)
+- GUI images: GUI Parts, by PONETI. Link: https://assetstore.unity.com/packages/2d/gui/icons/gui-parts-159068
+- Font: English Towne, by Dieter Steffmann. Link: https://www.dafont.com/es/english-towne.font
