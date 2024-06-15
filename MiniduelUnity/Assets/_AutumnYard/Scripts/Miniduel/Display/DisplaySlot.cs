@@ -11,6 +11,11 @@ namespace AutumnYard.Miniduel.Unity.Display
     public class DisplaySlot : MonoBehaviour,
         IDropHandler, IPointerEnterHandler, IPointerExitHandler
     {
+        public interface IEventsListener
+        {
+            void OnFinishedFightAnimations();
+        }
+
         [SerializeField] private int _player;
         [SerializeField] private int _fight;
         [SerializeField] private Image _image;
@@ -25,6 +30,7 @@ namespace AutumnYard.Miniduel.Unity.Display
         [SerializeField] private float _hoverTweenDuration = .4f;
 
         private EPiece _piece;
+        private IEventsListener _listener;
 
         private void OnValidate()
         {
@@ -53,6 +59,27 @@ namespace AutumnYard.Miniduel.Unity.Display
                 _image.color = Color.white;
             }
         }
+
+        #region Event Listening
+
+        public void SetListener(IEventsListener listener)
+        {
+            _listener = listener;
+        }
+
+        public void UnsetListener()
+        {
+            _listener = null;
+        }
+
+
+        public void OnFinishedAnimation()
+        {
+            _listener?.OnFinishedFightAnimations();
+        }
+
+        #endregion // Event Listening
+
 
         public void OnDrop(PointerEventData eventData)
         {
@@ -93,7 +120,6 @@ namespace AutumnYard.Miniduel.Unity.Display
                 return;
 
             StopTween();
-
         }
 
         [ContextMenu("Play animation")]

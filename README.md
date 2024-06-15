@@ -17,4 +17,12 @@ the folder `/Miniduel` includes
 - another project with a console program to test this: `/Miniduel/Miniduel/MiniduelRunner.csproj`
 
 ### Unity
-> incoming...
+Folders
+- The folder `/Assets/_AutumnYard` includes everything done by me.
+- Included the plugin DoTween.
+
+Arch
+- Every display has it's own DTO and EventListener if needed.
+
+Implementation notes
+- Piece fight animations must have the same duration, because only one OnAnimationComplete of the two pieces is listened to.

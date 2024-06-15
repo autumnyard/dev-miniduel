@@ -12,5 +12,7 @@ x (B) +ui Import dotween or another tweening library
 (D) +ui MainMenu and everything
 +admin Study calling the copy-dll.bat file after building successfuly in the vs solution. The command call "$(SolutionDir)copy-dll.bat" exits with error 4.
 x (A) +ui +ux Basic animations and tweens for fighting.
-(A) +ui +ux FightingResults display.
-(A) +ui +ux FightResults delay. The animations of FightResults are the consequences of a fight and should be triggered AFTER the animation has finished
+x (A) +ui +ux FightingResults display.
+x (A) +ui +ux FightResults delay. The animations of FightResults are the consequences of a fight and should be triggered AFTER the animation has finished
+(B) +ui +ux Board/FightResults should show in the board which Slot had the offense in the fight.
+(C) +ui +ux More animations and ux for the points and offense.

@@ -3,7 +3,8 @@ using UnityEngine;
 
 namespace AutumnYard.Miniduel.Unity.Display
 {
-    public class DisplayBoard : Displayable
+    public class DisplayBoard : Displayable,
+        DisplaySlot.IEventsListener
     {
         public class DTO
         {
@@ -17,32 +18,85 @@ namespace AutumnYard.Miniduel.Unity.Display
             public bool IsDueling => lastFightIndex >= 0;
         }
 
+        public interface IEventsListener
+        {
+            void OnFinishedFightAnimations();
+        }
+
         [SerializeField] private DisplayPanel[] _panels;
         [SerializeField] private DisplaySlot[] _slotsPlayer1;
         [SerializeField] private DisplaySlot[] _slotsPlayer2;
 
         private DTO _dto;
+        private IEventsListener _listener;
 
+        public void Initialize()
+        {
+
+        }
 
         public void Set(DTO dto)
         {
             _dto = dto;
 
+            RefreshEventListening();
             Refresh();
         }
+
+        #region Event Listening
+
+        public void SetListener(IEventsListener listener)
+        {
+            _listener = listener;
+        }
+
+        public void UnsetListener()
+        {
+            _listener = null;
+        }
+
+        private void RefreshEventListening()
+        {
+            if (_dto.IsDueling)
+            {
+                for (int i = 0; i < _slotsPlayer1.Length; i++)
+                {
+                    _slotsPlayer1[i].UnsetListener();
+                }
+                _slotsPlayer1[_dto.lastFightIndex].SetListener(this);
+            }
+        }
+
+        public void OnFinishedFightAnimations()
+        {
+            _listener?.OnFinishedFightAnimations();
+        }
+
+        #endregion // Event Listening
+
 
         public void Refresh()
         {
             if (!_dto.IsDueling)
             {
-                ResetAnimations();
+                RefreshNotDuelingPhase();
             }
             else
             {
-                PlayAnimation(0, _dto.lastFightIndex);
-                PlayAnimation(1, _dto.lastFightIndex);
-                return;
+                RefreshDuelingPhase();
             }
+        }
+
+
+        private void RefreshDuelingPhase()
+        {
+            PlayAnimation(0, _dto.lastFightIndex);
+            PlayAnimation(1, _dto.lastFightIndex);
+        }
+
+        private void RefreshNotDuelingPhase()
+        {
+            ResetAnimations();
 
             for (int i = 0; i < _dto.locations; i++)
             {
@@ -51,7 +105,7 @@ namespace AutumnYard.Miniduel.Unity.Display
             }
         }
 
-        public void PlayAnimation(int player, int location)
+        private void PlayAnimation(int player, int location)
         {
             var slot = GetSlot(player, location);
             slot.PlayAnimation();
@@ -65,7 +119,6 @@ namespace AutumnYard.Miniduel.Unity.Display
                 _slotsPlayer2[i].ResetAnimation();
             }
         }
-
 
         private void SetPiece(int player, int location, EPiece piece)
         {

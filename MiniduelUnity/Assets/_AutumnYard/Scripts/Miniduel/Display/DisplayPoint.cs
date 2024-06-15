@@ -10,6 +10,12 @@ namespace AutumnYard.Miniduel.Unity.Display
 
         public void Set(int points)
         {
+            if (points <= 0)
+            {
+                Unset();
+                return;
+            }
+
             _container.SetActive(true);
             _pointsLabel.text = $"+{points}";
         }

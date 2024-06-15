@@ -12,6 +12,8 @@ namespace AutumnYard.Miniduel.Unity.Display
             public bool offense;
             public int lastFightPointsPlayer1;
             public int lastFightPointsPlayer2;
+
+            public bool IsDueling => lastFightIndex >= 0;
         }
 
         [SerializeField] private DisplayOffense[] _offenses;
@@ -30,21 +32,25 @@ namespace AutumnYard.Miniduel.Unity.Display
 
         public void Refresh()
         {
-            if (_dto.lastFightIndex == -1)
+            if (!_dto.IsDueling)
             {
                 Clear();
             }
             else
             {
-                // TODO: These are the consequences and should be triggered AFTER the animation has finished
-                DisplayFightResults();
+                // These are the consequences and should be triggered AFTER the animation has finished
+                //DisplayFightResults();
             }
+        }
+
+        public void RefreshAfterFight()
+        {
+            DisplayFightResults();
         }
 
 
         private void Clear()
         {
-            ResetAnimations();
             for (int i = 0; i < _pointsPlayer1.Length; i++)
             {
                 _pointsPlayer1[i].Unset();
@@ -60,11 +66,6 @@ namespace AutumnYard.Miniduel.Unity.Display
             _offenses[1].Set(_dto.offense == true, _dto.offenseChange);
             _pointsPlayer1[_dto.lastFightIndex].Set(_dto.lastFightPointsPlayer1);
             _pointsPlayer2[_dto.lastFightIndex].Set(_dto.lastFightPointsPlayer2);
-        }
-
-        private void ResetAnimations()
-        {
-            // TODO: On the current location, set the corresponding DisplayPoint
         }
     }
 }
