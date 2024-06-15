@@ -16,15 +16,18 @@ namespace AutumnYard.Miniduel.Unity.Display
             void OnFinishedFightAnimations();
         }
 
+        [Header("Configuration")]
+        [SerializeField] private Settings _settings;
         [SerializeField] private int _player;
         [SerializeField] private int _fight;
-        [SerializeField] private Image _image;
+
+        [Header("References")]
+        [SerializeField] private Image _background;
+        [SerializeField] private Image _sprite;
         [SerializeField] private TextMeshProUGUI _label;
 
-        [Header("Animator")]
+        [Header("Animations")]
         [SerializeField] private Animator _animator;
-
-        [Header("Tweening")]
         [SerializeField] private RectTransform _tweenContainer;
         [SerializeField] private float _hoverTweenScale = 1.2f;
         [SerializeField] private float _hoverTweenDuration = .4f;
@@ -38,25 +41,54 @@ namespace AutumnYard.Miniduel.Unity.Display
 
             if (_label == null) _label = GetComponentInChildren<TextMeshProUGUI>();
 
-            if (_image == null) _image = GetComponent<Image>();
-            if (_image == null) _image = GetComponentInChildren<Image>();
+            if (_background == null) _background = GetComponent<Image>();
+            if (_background == null) _background = GetComponentInChildren<Image>();
 
             if (_animator == null) _animator = GetComponent<Animator>();
         }
 
+        public void Clear()
+        {
+            _piece = EPiece.None;
+            Refresh();
+        }
+
         public void Set(EPiece piece)
         {
+            if (piece == _piece)
+                return;
+
             _piece = piece;
+            Refresh();
+        }
+
+        private void Refresh()
+        {
+            var setting = _settings.GetPieceSetting(_piece);
+
             if (_piece == EPiece.None)
             {
                 _label.alpha = 0f;
-                _image.color = Color.gray;
+
+                _sprite.color = Color.clear;
             }
             else
             {
-                _label.text = DisplayUtils.GetPieceWithColor(_piece);
+                _label.text = setting.text;
+                _label.color = setting.color;
                 _label.alpha = 1f;
-                _image.color = Color.white;
+
+                if (setting.sprite == null)
+                {
+                    _sprite.color = Color.clear;
+                }
+                else
+                {
+                    _sprite.sprite = setting.sprite;
+                    _sprite.color = Color.white;
+                    //_sprite.SetAllDirty();
+                    //_sprite.color = setting.color;
+                }
             }
         }
 
@@ -93,8 +125,7 @@ namespace AutumnYard.Miniduel.Unity.Display
                 return;
 
             StopTween();
-            _piece = dragPiece.Piece;
-            GameHandler.Instance.SetPiece(_player, _fight, _piece);
+            GameHandler.Instance.SetPiece(_player, _fight, dragPiece.Piece);
         }
 
         public void OnPointerEnter(PointerEventData eventData)

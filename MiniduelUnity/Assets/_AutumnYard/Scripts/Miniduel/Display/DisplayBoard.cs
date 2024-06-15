@@ -30,9 +30,14 @@ namespace AutumnYard.Miniduel.Unity.Display
         private DTO _dto;
         private IEventsListener _listener;
 
-        public void Initialize()
+        public void Clear()
         {
-
+            _dto = null;
+            for (int i = 0; i < _slotsPlayer1.Length; i++)
+            {
+                _slotsPlayer1[i].Clear();
+                _slotsPlayer2[i].Clear();
+            }
         }
 
         public void Set(DTO dto)

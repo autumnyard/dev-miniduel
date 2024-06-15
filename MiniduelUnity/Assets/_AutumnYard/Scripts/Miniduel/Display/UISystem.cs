@@ -73,12 +73,14 @@ namespace AutumnYard.Miniduel.Unity.Display
 
         private void EnterPreparingState(Round round)
         {
+            _preparing.Clear();
             var dto = GetUIPreparingDTO(round);
             _preparing.Set(dto);
         }
 
         private void EnterDuelingState(Round round)
         {
+            _dueling.Clear();
             UIDueling.DTO dto = GetUIDuelingBeginDTO(round);
             _dueling.Set(dto);
         }
@@ -91,6 +93,7 @@ namespace AutumnYard.Miniduel.Unity.Display
 
         private void EnterFinishedState(Round round)
         {
+            _finished.Clear();
             UIFinished.DTO dto = GetUIFinishedDTO(round);
             _finished.Set(dto);
         }

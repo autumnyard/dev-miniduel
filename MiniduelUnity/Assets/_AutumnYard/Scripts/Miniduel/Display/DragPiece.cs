@@ -9,17 +9,25 @@ namespace AutumnYard.Miniduel.Unity.Display
         IPointerDownHandler,
         IBeginDragHandler, IEndDragHandler, IDragHandler
     {
+        [Header("Configuration")]
+        [SerializeField] private Settings _settings;
+        [SerializeField] private EPiece _piece;
+
+        [Header("External references")]
         [SerializeField] private Canvas _canvas;
+
+        [Header("References")]
         [SerializeField] private CanvasGroup _canvasGroup;
         [SerializeField] private TextMeshProUGUI _pieceLabel;
-        [SerializeField] private EPiece _piece;
-        private RectTransform _transform;
-        private Vector2 _defaultPosition;
 
         [Header("Animation")]
         [SerializeField] private RectTransform _tweenContainer;
         [SerializeField] private Vector3 _idleTweenRotation = new Vector3(0, 0, 4);
         [SerializeField] private float _idleTweenDuration = .4f;
+
+
+        private RectTransform _transform;
+        private Vector2 _defaultPosition;
 
         public EPiece Piece => _piece;
 

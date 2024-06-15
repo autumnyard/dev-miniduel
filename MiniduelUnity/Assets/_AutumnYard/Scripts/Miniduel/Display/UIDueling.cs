@@ -23,6 +23,12 @@ namespace AutumnYard.Miniduel.Unity.Display
 
         private DTO _dto;
 
+        public void Clear()
+        {
+            _dto = null;
+            _board.Clear();
+        }
+
         public void Set(DTO dto)
         {
             _board.SetListener(this);
