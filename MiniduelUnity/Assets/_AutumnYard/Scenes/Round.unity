@@ -1107,6 +1107,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2810165012710543463, guid: f3f3bb0e10585a341a137fba384a6a53,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1959092337}
+    - target: {fileID: 2810165012710543463, guid: f3f3bb0e10585a341a137fba384a6a53,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: TEST_AutoPlay2
+      objectReference: {fileID: 0}
     - target: {fileID: 2829015774300685925, guid: f3f3bb0e10585a341a137fba384a6a53,
         type: 3}
       propertyPath: m_AnchorMax.y

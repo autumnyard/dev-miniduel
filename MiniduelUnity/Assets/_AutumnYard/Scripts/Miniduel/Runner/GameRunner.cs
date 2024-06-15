@@ -32,6 +32,15 @@ namespace AutumnYard.Miniduel.Unity.Runner
             _gameHandler.SetPiece(0, 2, EPiece.Attack);
             _gameHandler.SetPiece(1, 2, EPiece.Attack);
         }
+        public void TEST_AutoPlay2()
+        {
+            _gameHandler.SetPiece(0, 0, EPiece.Attack);
+            _gameHandler.SetPiece(1, 0, EPiece.Parry);
+            _gameHandler.SetPiece(0, 1, EPiece.Parry);
+            _gameHandler.SetPiece(1, 1, EPiece.Defense);
+            _gameHandler.SetPiece(0, 2, EPiece.Defense);
+            _gameHandler.SetPiece(1, 2, EPiece.Attack);
+        }
 
         [ContextMenu("Reset")]
         private void TEST_Reset()

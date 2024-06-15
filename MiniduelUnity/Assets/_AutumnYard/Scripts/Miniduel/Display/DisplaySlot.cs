@@ -79,6 +79,7 @@ namespace AutumnYard.Miniduel.Unity.Display
             if (dragPiece == null)
                 return;
 
+            StopTweenInstant();
             PlayTweenHover();
         }
 
@@ -121,6 +122,16 @@ namespace AutumnYard.Miniduel.Unity.Display
             _tweenContainer.DOKill();
             _tweenContainer.DOScale(Vector3.one, _hoverTweenDuration)
                 .SetEase(Ease.OutQuad);
+        }
+        private void StopTweenInstant()
+        {
+            _tweenContainer.DOKill();
+            _tweenContainer.localScale = Vector3.one;
+        }
+
+        public override string ToString()
+        {
+            return $"DisplaySlot {_player} {_fight}: {_piece}";
         }
     }
 }
